@@ -30,7 +30,6 @@ public class Server {
     };
 
     String resultQuote = quotes[(int) (Math.random() * quotes.length)];
-    System.out.println((int) (Math.random() * quotes.length));
     return resultQuote;
   }
 
