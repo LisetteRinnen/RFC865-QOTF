@@ -4,7 +4,36 @@ import java.net.*;
 
 public class Server {
 
-  static String quote = "If you look for perfection, you'll never be content. - Leo Tolstoy \n";
+  public static String getQuote() {
+    // Favorite movie: Hidden Figures
+    String[] quotes = {
+      "\"We All Get To The Peak Together, Or We Don't Get There At All.\" - Al Harrison \n",
+      "\"There's Only One Thing To Do: Learn All We Can.\" - Dorothy Vaughan \n",
+      "\"Whoever Gets There First Will Make The Rules.\" - Al Harrison \n",
+      "\"It's Equal Rights. I Have The Right To See Fine In Every Color.\" - Mary Jackson \n",
+      "\"No Crime In A Broken Down Car.\" \"No Crime Being Negro, Neither.\" - Dorothy Vaughan & Mary Jackson \n",
+      "\"Separate And Equal Are Two Different Things. Just Because It's The Way Don't Make It Right.\" - Dorothn Vaughan \n",
+      "\"Civil Rights Ain't Always Civil.\" - Levi Jackson \n",
+      "\"And It's Not Because We Wear Skirts. It's Because We Wear Glasses.\" - Katherine Johnson \n",
+      "\"You, Sir, You Are The Boss. You Just Have To Act Like One... Sir.\" - Katherine Johnson \n",
+      "\"Despite What You Think, I Have Nothing Against Y'all.\" \"I Know You Probably Believe That.\" - Vivian Mitchell & Dorothy Vaughan \n",
+      "\"Every Time We Have A Chance To Get Ahead, They Move The Finish Line.\" - Mary Jackson \n",
+      "\"We all pee the same color.\" - Al Harrison \n",
+      "\"Which one is going to make you the first?\" - Mary Jackson \n",
+      "\"Life is pain, Highness. Anyone who says differently is selling something.\" - Westley \n",
+      "\"Hello. My name is Inigo Montoya. You killed my father. Prepare to die.\" - Inigo Montoya \n",
+      "\"I always think that everything could be a trap, which is why I’m still alive.\" - Prince Humperdinck \n",
+      "\"There’s a shortage of perfect breasts in the world. It would be a pity to damage yours.\" - Westley \n",
+      "\"Good night, Westley. Good work. Sleep well. I’ll most likely kill you in the morning.\" - Dread Pirate Roberts \n",
+      "\"You mean you wish to surrender to me? Very well, I accept.\" - Westley \n",
+      "\"This is true love. Do you think this happens every day?\" - Westley \n"
+    };
+
+    String resultQuote = quotes[(int) (Math.random() * quotes.length)];
+    System.out.println((int) (Math.random() * quotes.length));
+    return resultQuote;
+  }
+
 
   public static void handleTCPRequest(ServerSocket TCPserver) {
     try {
@@ -12,11 +41,10 @@ public class Server {
       while ((socket = TCPserver.accept()) != null) {
         System.out.println("TCP client accepted");
         try(OutputStream output = socket.getOutputStream()) {
-          System.out.println("Quote sent!");
+          String quote = getQuote();
+          System.out.println(quote);
           output.write(quote.getBytes());
-
-          // Wait for the client to stop reading
-          Thread.sleep(10);
+          System.out.println("Quote sent!");
 
           // end output
           socket.shutdownOutput();
@@ -43,6 +71,7 @@ public class Server {
         System.out.println("UDP client accepted, packet received");
         try {
           // create a quote packet to send
+          String quote = getQuote();
           byte[] messageByte = quote.getBytes();
           SocketAddress clientSocketAddress = packet.getSocketAddress();
           DatagramPacket message = new DatagramPacket(messageByte, messageByte.length, clientSocketAddress);
